@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class MainActivity extends Activity implements View.OnClickListener {
 
-    private LuaState mluaState;
+    private LuaState mLuaState;
     private TextView mState;
     private TextView mResult;
 
@@ -38,14 +38,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         //init Data
         nameLists.add("定义一个Lua变量");
+        nameLists.add("run .Lua文件");
 //        nameLists.add("定义一个Lua变量");
         location = 0;
         mState.setText(nameLists.get(location));
 
 
         //init lua
-        mluaState = LuaStateFactory.newLuaState();
-        mluaState.openLibs();
+        mLuaState = LuaStateFactory.newLuaState();
+        mLuaState.openLibs();
 
 
         onClick(null);
@@ -67,6 +68,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
             case 0:
                 runStatement();
                 break;
+            case 1:
+                runLuaFile();
+                break;
         }
 
         setNextLocation();
@@ -75,7 +79,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     /**
      * 运行Lua脚本文件
      */
-    private void runFile() {
+    private void runLuaFile() {
 
     }
 
@@ -84,13 +88,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
      */
     private void runStatement() {
 
-        mluaState.LdoString("name = 'Tovi '");
-        mluaState.getGlobal("name");
-        appendResult("name", mluaState.toString(-1));
+        mLuaState.LdoString("name = 'Tovi '");
+        mLuaState.getGlobal("name");
+        appendResult("name", mLuaState.toString(-1));
 
-        mluaState.LdoString("true");
-        mluaState.isBoolean(-1);
-        appendResult("'true' is boolean", mluaState.isBoolean(-1));
+        mLuaState.LdoString("true");
+        mLuaState.isBoolean(-1);
+        appendResult("'true' is boolean", mLuaState.isBoolean(-1));
     }
 
     private void appendResult(String key, Object o) {
