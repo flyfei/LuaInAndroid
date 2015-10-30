@@ -23,6 +23,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import cn.tovi.luainandroid.R;
+
 public class Main extends Activity implements OnClickListener,
 		OnLongClickListener {
 	private final static int LISTEN_PORT = 3333;
