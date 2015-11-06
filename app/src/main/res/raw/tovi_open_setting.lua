@@ -7,10 +7,13 @@
 -- To change this template use File | Settings | File Templates.
 --
 
+-- 打开设置界面
 function launchSetting(context)
-    print("todo---------------------------launchSetting")
+
+    -- 该方法在华为手机上面崩溃
+
     intent = luajava.newInstance("android.content.Intent")
-    c = luajava.newInstance("android.content.ComponentName","com.android.settings", "com.android.settings.Settings")
+    c = luajava.newInstance("android.content.ComponentName", "com.android.settings", "com.android.settings.Settings")
     intent:setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
     intent:setComponent(c)
     context:startActivity(intent)

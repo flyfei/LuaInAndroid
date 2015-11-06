@@ -41,6 +41,13 @@
                 android:onClick="onClick"
                 android:text="Function返回参数" />
 
+            <Button
+                android:id="@+id/btn_function_toast"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onClick"
+                android:text="Toast" />
+
         </LinearLayout>
     </ScrollView>
 

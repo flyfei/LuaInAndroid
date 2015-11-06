@@ -1,10 +1,12 @@
 package cn.tovi.luainandroid;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.keplerproject.luajava.LuaState;
 import org.keplerproject.luajava.LuaStateFactory;
@@ -53,8 +55,28 @@ public class MainActivity extends Activity implements View.OnClickListener {
             case R.id.btn_function_result:
                 getFunctionResult();
                 break;
+            case R.id.btn_function_toast:
+                luaToast("测试Toast");
+                break;
         }
 
+    }
+
+
+    private void luaToast(String message) {
+        //加载Lua文件内容
+        mLuaState.LdoString(readRawStream(R.raw.tovi_toast));
+
+        //获取方法名
+        mLuaState.getField(LuaState.LUA_GLOBALSINDEX, "toast");
+
+        //设置参数
+        mLuaState.pushJavaObject(this);
+        mLuaState.pushString(message);
+//        mLuaState.pushNumber(Toast.LENGTH_SHORT);
+
+        //执行Function
+        mLuaState.call(2, 0);
     }
 
     /**
@@ -124,7 +146,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
         mLuaState.LdoString("testType = true");
         //获取值
         mLuaState.getGlobal("testType");
+
         //isBoolean 判断值类型
+        /**
+         * 把指定的索引处的的 Lua 值转换为一个 C 中的 boolean 值（ 0 或是 1 ）。
+         * 和 Lua 中做的所有测试一样， lua_toboolean 会把任何 不同于 false 和 nil 的值当作 1 返回； 否则就返回 0 。
+         * 如果用一个无效索引去调用也会返回 0 。
+         * （如果你想只接收真正的 boolean 值，就需要使用 lua_isboolean 来测试值的类型。）
+         */
         appendResultLine("'testType' is boolean", mLuaState.isBoolean(-1));
     }
 
@@ -165,6 +194,15 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 }
             }
         }
+    }
+
+    private void toast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    //    public void toast(Context context, String message, int duration) {
+    public void toast(Context context, String message) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 
     private void appendResultLine(String key, Object o) {
