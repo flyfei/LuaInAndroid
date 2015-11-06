@@ -12,8 +12,6 @@ import org.keplerproject.luajava.LuaStateFactory;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author <a href='mailto:zhaotengfei9@gmail.com'>Tengfei Zhao</a>
@@ -21,11 +19,7 @@ import java.util.List;
 public class MainActivity extends Activity implements View.OnClickListener {
 
     private LuaState mLuaState;
-    private TextView mState;
     private TextView mResult;
-
-    private List<String> nameLists = new ArrayList<String>();
-    private int location = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,59 +32,59 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private void init() {
         //init View
         mResult = (TextView) findViewById(R.id.result);
-        mState = (TextView) findViewById(R.id.state);
-
-        //init Data
-        nameLists.add("Lua变量");
-        nameLists.add("运行 .Lua文件");
-//        nameLists.add("定义一个Lua变量");
-        location = 0;
-        mState.setText(nameLists.get(location));
-
 
         //init lua
         mLuaState = LuaStateFactory.newLuaState();
         mLuaState.openLibs();
 
-
-        onClick(null);
-    }
-
-    private void setNextLocation() {
-        if (location + 1 > nameLists.size() - 1)
-            location = 0;
-        else
-            location++;
     }
 
     @Override
     public void onClick(View view) {
-        mState.setText(nameLists.get(location));
         mResult.setText("");
 
-        switch (location) {
-            case 0:
+        switch (view.getId()) {
+            case R.id.btn_bianliang:
                 runStatement();
                 break;
-            case 1:
-                runLuaFile();
+            case R.id.btn_open_setting:
+                openSetting();
+                break;
+            case R.id.btn_function_result:
+                getFunctionResult();
                 break;
         }
 
-        setNextLocation();
     }
 
     /**
-     * 运行Lua脚本文件
+     * 执行Function，获取返回值
      */
-    private void runLuaFile() {
+    private void getFunctionResult() {
+        //加载Lua文件内容
+        mLuaState.LdoString(readRawStream(R.raw.tovi_get_function_result));
+        //获取方法名
+        mLuaState.getField(LuaState.LUA_GLOBALSINDEX, "getFunctionResult");
+
+        //设置参数
+        mLuaState.pushNumber(10);
+        mLuaState.pushNumber(11);
+
+        //执行Function
+        mLuaState.call(2, 1);
+
+        appendResultLine("传入'10','11',返回的结果:" + mLuaState.toString(-1));
+    }
+
+    /**
+     * 运行Lua脚本文件，打开Setting
+     */
+    private void openSetting() {
         //加载Lua文件内容
         mLuaState.LdoString(readRawStream(R.raw.tovi_open_setting));
         //找到function方法
         mLuaState.getField(LuaState.LUA_GLOBALSINDEX, "launchSetting");
 
-//        mLuaState.pushJavaObject(getApplicationContext());
-//        mLuaState.pushJavaObject();
         //传入参数（如果Funcation方法有参数）
         mLuaState.pushJavaObject(this);
 
@@ -98,7 +92,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         /**
          * call(int nArgs, int nResults)<br>
          *     nArgs:几个参数
-         *     nResults:几个返回值?返回值存放的位置？
+         *     nResults:几个返回值
          */
         mLuaState.call(1, 0);
     }
@@ -134,6 +128,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
         appendResultLine("'testType' is boolean", mLuaState.isBoolean(-1));
     }
 
+    /**
+     * 读取Raw文件内容
+     *
+     * @param resourceId
+     * @return
+     */
     private String readRawStream(int resourceId) {
         InputStream inputStream = null;
         ByteArrayOutputStream byteArrayOutputStream = null;
