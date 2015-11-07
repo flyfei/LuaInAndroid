@@ -8,11 +8,13 @@
 --
 
 function launchSetting(context)
-    print("todo---------------------------launchSetting")
+
     intent = luajava.newInstance("android.content.Intent")
     c = luajava.newInstance("android.content.ComponentName","com.android.settings", "com.android.settings.Settings")
     intent:setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
     intent:setComponent(c)
     context:startActivity(intent)
+
+
 end
 

@@ -55,28 +55,72 @@ public class MainActivity extends Activity implements View.OnClickListener {
             case R.id.btn_function_result:
                 getFunctionResult();
                 break;
-            case R.id.btn_function_toast:
-                luaToast("测试Toast");
+            case R.id.btn_function_toast1:
+                luaToast1();
+                break;
+            case R.id.btn_function_toast2:
+                luaToast2();
+                break;
+            case R.id.btn_function_toast3:
+                luaToast3();
                 break;
         }
 
     }
 
 
-    private void luaToast(String message) {
+    private void luaToast1() {
+        String message = "测试Test1";
+
         //加载Lua文件内容
         mLuaState.LdoString(readRawStream(R.raw.tovi_toast));
 
         //获取方法名
-        mLuaState.getField(LuaState.LUA_GLOBALSINDEX, "toast");
+        mLuaState.getField(LuaState.LUA_GLOBALSINDEX, "toast1");
 
         //设置参数
         mLuaState.pushJavaObject(this);
         mLuaState.pushString(message);
-//        mLuaState.pushNumber(Toast.LENGTH_SHORT);
+        mLuaState.pushNumber(Toast.LENGTH_SHORT);
 
         //执行Function
-        mLuaState.call(2, 0);
+        mLuaState.call(3, 0);
+    }
+
+    private void luaToast2() {
+        String message = "测试Test2";
+
+        //加载Lua文件内容
+        mLuaState.LdoString(readRawStream(R.raw.tovi_toast));
+
+        //获取方法名
+        mLuaState.getField(LuaState.LUA_GLOBALSINDEX, "toast2");
+
+        //设置参数
+        mLuaState.pushJavaObject(this);
+        mLuaState.pushString(message);
+        mLuaState.pushNumber(Toast.LENGTH_SHORT);
+
+        //执行Function
+        mLuaState.call(3, 0);
+    }
+
+    private void luaToast3() {
+        String message = "测试Test3";
+        //加载Lua文件内容
+        mLuaState.LdoString(readRawStream(R.raw.tovi_toast));
+
+        //获取方法名
+        mLuaState.getField(LuaState.LUA_GLOBALSINDEX, "toast3");
+
+        //设置参数
+        mLuaState.pushJavaObject(this);
+        mLuaState.pushJavaObject(this);
+        mLuaState.pushString(message);
+        mLuaState.pushNumber(Toast.LENGTH_SHORT);
+
+        //执行Function
+        mLuaState.call(4, 0);
     }
 
     /**
@@ -200,9 +244,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-    //    public void toast(Context context, String message, int duration) {
-    public void toast(Context context, String message) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    public void toast(Context context, String message, int duration) {
+        Toast.makeText(context, message, duration).show();
     }
 
     private void appendResultLine(String key, Object o) {

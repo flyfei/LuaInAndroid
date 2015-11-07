@@ -42,11 +42,25 @@
                 android:text="Function返回参数" />
 
             <Button
-                android:id="@+id/btn_function_toast"
+                android:id="@+id/btn_function_toast1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="onClick"
-                android:text="Toast" />
+                android:text="Toast1" />
+
+            <Button
+                android:id="@+id/btn_function_toast2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onClick"
+                android:text="Toast2" />
+
+            <Button
+                android:id="@+id/btn_function_toast3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onClick"
+                android:text="Toast3" />
 
         </LinearLayout>
     </ScrollView>
