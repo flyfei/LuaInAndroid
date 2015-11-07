@@ -19,10 +19,8 @@ end
 function toast2(context, message)
     --    获取静态类Toast
     mToast = luajava.bindClass("android.widget.Toast")
-    --    如果想获取LENGTH_SHORT,先实例对象,再获取
-    mInstanceToast = luajava.newInstance("android.widget.Toast", context)
     --    调用显示Toast Api (Toast.makeText(Context context, CharSequence text, @Duration int duration))
-    mToast:makeText(context, message, mInstanceToast.LENGTH_SHORT):show()
+    mToast:makeText(context, message, mToast.LENGTH_SHORT):show()
 end
 
 -- Lua Toast(回调调用Android方法显示Toast)

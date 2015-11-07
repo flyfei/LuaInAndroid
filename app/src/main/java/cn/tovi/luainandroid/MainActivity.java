@@ -64,11 +64,21 @@ public class MainActivity extends Activity implements View.OnClickListener {
             case R.id.btn_function_toast3:
                 luaToast3();
                 break;
+            case R.id.btn_function_setOnClick:
+                luaSetOnClick();
+                break;
         }
 
     }
 
 
+    private void luaSetOnClick() {
+
+    }
+
+    /**
+     * Toast1
+     */
     private void luaToast1() {
         String message = "测试Test1";
 
@@ -87,6 +97,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         mLuaState.call(3, 0);
     }
 
+    /**
+     * Toast2
+     */
     private void luaToast2() {
         String message = "测试Test2";
 
@@ -105,6 +118,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
         mLuaState.call(3, 0);
     }
 
+    /**
+     * Toast3
+     */
     private void luaToast3() {
         String message = "测试Test3";
         //加载Lua文件内容
