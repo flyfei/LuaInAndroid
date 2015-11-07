@@ -2,7 +2,7 @@
 
 LuaInAndroid
 
-[EN](https://github.com/flyfei/LuaInAndroid/blob/master/README_EN.md)
+[English](https://github.com/flyfei/LuaInAndroid/blob/master/README_EN.md)
 
 本项目主要为了学习Lua而进行的功能实现的测试
 
