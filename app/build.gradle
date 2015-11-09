@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 10
+    compileSdkVersion 19
     buildToolsVersion "22.0.1"
 
     defaultConfig {
         applicationId "sk.kottman.androlua"
         minSdkVersion 4
-        targetSdkVersion 4
+        targetSdkVersion 19
 
         ndk{
             moduleName "libluajava"   //生成的so名字
