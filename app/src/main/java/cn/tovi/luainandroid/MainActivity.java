@@ -215,6 +215,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
          * （如果你想只接收真正的 boolean 值，就需要使用 lua_isboolean 来测试值的类型。）
          */
         appendResultLine("'testType' is boolean", mLuaState.isBoolean(-1));
+
+
+        /**
+         * 另一种取值,是对getGlobal方法的封装
+         */
+//        LuaObject obj = mLuaState.getLuaObject("testType"); // 取得参数，以LuaObject类返回到java中
+//        System.out.println("result: " + obj.toString());
     }
 
     /**
