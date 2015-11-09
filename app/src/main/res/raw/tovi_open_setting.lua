@@ -17,5 +17,14 @@ function launchSetting(context)
     intent:setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
     intent:setComponent(c)
     context:startActivity(intent)
+
+
+--    settings = luajava.bindClass("android.provider.Settings")
+--    intent = luajava.newInstance("android.content.Intent",settings.ACTION_SETTINGS)
+--    intent:setFlags(intent.FLAG_ACTIVITY_NEW_TASK)
+--    context:startActivity(intent)
+
+--    Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+--    startActivity(intent);
 end
 
