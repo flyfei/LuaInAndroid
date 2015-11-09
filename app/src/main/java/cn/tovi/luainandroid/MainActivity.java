@@ -73,9 +73,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private void luaSetOnClick() {
 
         String info = ReadUtil.readFromAssets(this, "tovi_set_onclick.lua");
+        info += ReadUtil.readFromAssets(this, "tovi_toast.lua");
+
+//        info = null;
+//        info = ReadUtil.readFromRaw(this, R.raw.tovi_set_onclick);
+//        info += ReadUtil.readFromRaw(this, R.raw.tovi_toast);
+
         //加载Lua内容
         mLuaState.LdoString(info);
-//        mLuaState.LdoString(ReadUtil.readFromRaw(this, R.raw.tovi_set_onclick));
 
         //获取方法名
         mLuaState.getField(LuaState.LUA_GLOBALSINDEX, "setOnClick");
