@@ -3,17 +3,12 @@ package cn.tovi.luainandroid;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.keplerproject.luajava.LuaState;
 import org.keplerproject.luajava.LuaStateFactory;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * @author <a href='mailto:zhaotengfei9@gmail.com'>Tengfei Zhao</a>
@@ -67,12 +62,28 @@ public class MainActivity extends Activity implements View.OnClickListener {
             case R.id.btn_function_setOnClick:
                 luaSetOnClick();
                 break;
+            case R.id.btn_onclick:
+                toast("Hello I'm Coming");
+                break;
         }
 
     }
 
 
     private void luaSetOnClick() {
+
+        String info = ReadUtil.readFromAssets(this, "tovi_set_onclick.lua");
+        //加载Lua内容
+        mLuaState.LdoString(info);
+//        mLuaState.LdoString(ReadUtil.readFromRaw(this, R.raw.tovi_set_onclick));
+
+        //获取方法名
+        mLuaState.getField(LuaState.LUA_GLOBALSINDEX, "setOnClick");
+
+        //设置参数
+        mLuaState.pushJavaObject(this);
+
+        mLuaState.call(1, 0);
 
     }
 
@@ -83,7 +94,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         String message = "测试Test1";
 
         //加载Lua文件内容
-        mLuaState.LdoString(readRawStream(R.raw.tovi_toast));
+        mLuaState.LdoString(ReadUtil.readFromRaw(this, R.raw.tovi_toast));
 
         //获取方法名
         mLuaState.getField(LuaState.LUA_GLOBALSINDEX, "toast1");
@@ -104,7 +115,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         String message = "测试Test2";
 
         //加载Lua文件内容
-        mLuaState.LdoString(readRawStream(R.raw.tovi_toast));
+        mLuaState.LdoString(ReadUtil.readFromRaw(this, R.raw.tovi_toast));
 
         //获取方法名
         mLuaState.getField(LuaState.LUA_GLOBALSINDEX, "toast2");
@@ -124,7 +135,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private void luaToast3() {
         String message = "测试Test3";
         //加载Lua文件内容
-        mLuaState.LdoString(readRawStream(R.raw.tovi_toast));
+        mLuaState.LdoString(ReadUtil.readFromRaw(this, R.raw.tovi_toast));
 
         //获取方法名
         mLuaState.getField(LuaState.LUA_GLOBALSINDEX, "toast3");
@@ -144,7 +155,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
      */
     private void getFunctionResult() {
         //加载Lua文件内容
-        mLuaState.LdoString(readRawStream(R.raw.tovi_get_function_result));
+        mLuaState.LdoString(ReadUtil.readFromRaw(this, R.raw.tovi_get_function_result));
         //获取方法名
         mLuaState.getField(LuaState.LUA_GLOBALSINDEX, "getFunctionResult");
 
@@ -163,7 +174,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
      */
     private void openSetting() {
         //加载Lua文件内容
-        mLuaState.LdoString(readRawStream(R.raw.tovi_open_setting));
+        mLuaState.LdoString(ReadUtil.readFromRaw(this, R.raw.tovi_open_setting));
         //找到function方法
         mLuaState.getField(LuaState.LUA_GLOBALSINDEX, "launchSetting");
 
@@ -224,44 +235,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
 //        System.out.println("result: " + obj.toString());
     }
 
-    /**
-     * 读取Raw文件内容
-     *
-     * @param resourceId
-     * @return
-     */
-    private String readRawStream(int resourceId) {
-        InputStream inputStream = null;
-        ByteArrayOutputStream byteArrayOutputStream = null;
-        try {
-            inputStream = getResources().openRawResource(resourceId);
-            byteArrayOutputStream = new ByteArrayOutputStream();
-            int i = inputStream.read();
-            while (i != -1) {
-                byteArrayOutputStream.write(i);
-                i = inputStream.read();
-            }
-            return byteArrayOutputStream.toString();
-        } catch (Exception e) {
-            Log.e("ReadStream", "读取文件流失败");
-            return "";
-        } finally {
-            if (inputStream != null)
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            if (byteArrayOutputStream != null) {
-                try {
-                    byteArrayOutputStream.flush();
-                    byteArrayOutputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
 
     private void toast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
