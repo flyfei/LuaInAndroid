@@ -10,6 +10,12 @@ import android.widget.Toast;
 import org.keplerproject.luajava.LuaState;
 import org.keplerproject.luajava.LuaStateFactory;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import cn.tovi.luainandroid.ModelTest.DataModel;
+import cn.tovi.luainandroid.ModelTest.Person;
+
 /**
  * @author <a href='mailto:zhaotengfei9@gmail.com'>Tengfei Zhao</a>
  */
@@ -65,10 +71,50 @@ public class MainActivity extends Activity implements View.OnClickListener {
             case R.id.btn_onclick:
                 toast("Hello I'm Coming");
                 break;
+            case R.id.btn_function_data_model:
+                luaDataModel();
+                break;
         }
 
     }
 
+    private void luaDataModel() {
+        DataModel dataModel = new DataModel();
+        dataModel.aDouble = 1.00;
+        dataModel.aFloat = 0.1f;
+        dataModel.aLong = 10000;
+        dataModel.anInt = 100;
+        dataModel.aObject = MainActivity.this;
+        dataModel.aString = "Hello World";
+        dataModel.aStrings = new String[1];
+        dataModel.aStrings[0] = "Tovi";
+        dataModel.listString = new ArrayList<String>();
+        dataModel.listString.add("Tovi List");
+        dataModel.maps = new HashMap<String, String>();
+        dataModel.maps.put("name", "Tovi");
+
+        Person person = new Person();
+        person.name = "Tovi";
+        person.age = 1;
+
+        dataModel.aPerson = person;
+
+
+        //加载Lua
+        mLuaState.LdoString(ReadUtil.readFromRaw(this, R.raw.tovi_data_model));
+
+        //获取方法名
+        mLuaState.getField(LuaState.LUA_GLOBALSINDEX, "dataModel");
+
+        //传递参数
+        mLuaState.pushJavaObject(dataModel);
+
+        //执行
+        mLuaState.call(1, 1);
+
+        appendResultLine("收到的结果:" + mLuaState.toString(-1));
+
+    }
 
     private void luaSetOnClick() {
 
