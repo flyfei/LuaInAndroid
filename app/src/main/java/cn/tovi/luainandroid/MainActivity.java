@@ -72,15 +72,16 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private void luaSetOnClick() {
 
-        String info = ReadUtil.readFromAssets(this, "tovi_set_onclick.lua");
-        info += ReadUtil.readFromAssets(this, "tovi_toast.lua");
-
-//        info = null;
-//        info = ReadUtil.readFromRaw(this, R.raw.tovi_set_onclick);
-//        info += ReadUtil.readFromRaw(this, R.raw.tovi_toast);
+        /**
+         * 测试发现，如果一个lua引用另外的lua，运行Android程序的时候，会报异常。如果将他们放到一个Lua中，不会报错，所以，将相互引用的Lua都加载起来。
+         */
+        String info = ReadUtil.readFromAssets(this, LoadLua.LUA_ROOT_PATH + "tovi_set_onclick.lua");
+        info += ReadUtil.readFromAssets(this, LoadLua.LUA_ROOT_PATH + "tovi_toast.lua");
 
         //加载Lua内容
         mLuaState.LdoString(info);
+//        mLuaState.LdoString(LoadLua.readAssetsAllFile(this));
+//        mLuaState.LdoString(LoadLua.readRawAllFile(this));
 
         //获取方法名
         mLuaState.getField(LuaState.LUA_GLOBALSINDEX, "setOnClick");
