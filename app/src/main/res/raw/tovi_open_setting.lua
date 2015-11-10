@@ -10,21 +10,13 @@
 -- 打开设置界面
 function launchSetting(context)
 
-    -- 该方法在华为手机上面崩溃
-
-    intent = luajava.newInstance("android.content.Intent")
-    c = luajava.newInstance("android.content.ComponentName", "com.android.settings", "com.android.settings.Settings")
-    intent:setFlags(intent.FLAG_ACTIVITY_NEW_TASK);
-    intent:setComponent(c)
+    settings = luajava.bindClass("android.provider.Settings")
+    intent = luajava.newInstance("android.content.Intent", settings.ACTION_SETTINGS)
+    intent:setFlags(intent.FLAG_ACTIVITY_NEW_TASK)
     context:startActivity(intent)
 
-
---    settings = luajava.bindClass("android.provider.Settings")
---    intent = luajava.newInstance("android.content.Intent",settings.ACTION_SETTINGS)
---    intent:setFlags(intent.FLAG_ACTIVITY_NEW_TASK)
---    context:startActivity(intent)
-
---    Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
---    startActivity(intent);
+    --    Intent intent = new Intent(Settings.ACTION_SETTINGS);
+    --    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    --    startActivity(intent);
 end
 
