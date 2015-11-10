@@ -14,7 +14,7 @@ function setOnClick(context)
 
     local listener = {
         onClick = function(view)
-            toast2(context, "Hello I'm back")
+            toast(context, "Hello I'm back")
         end
     }
     local buttonProxy = luajava.createProxy("android.view.View$OnClickListener", listener)
