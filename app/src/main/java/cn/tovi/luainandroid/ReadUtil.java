@@ -37,7 +37,7 @@ public class ReadUtil {
             return byteArrayOutputStream.toString();
 
 
-//            如果用这个的话，Lua里面如果有注释，报错
+//            如果用这个的话,Lua里面如果有注释，报错
 //
 //            bufReader = new BufferedReader(inputReader);
 //            String line = "";
