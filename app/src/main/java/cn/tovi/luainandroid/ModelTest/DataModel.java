@@ -8,6 +8,13 @@ import java.util.Map;
  * @author <a href='mailto:zhaotengfei9@gmail.com'>Tengfei Zhao</a>
  */
 public class DataModel {
+    /**
+     *Lua中好像不分区那么多的数据类型，统一用Number
+     */
+
+
+
+
     public String aString;
     public int anInt;
     public float aFloat;
