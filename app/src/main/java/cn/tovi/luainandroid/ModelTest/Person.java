@@ -8,6 +8,8 @@ public class Person {
      * 名字
      */
     public String name;
-    
+    /**
+     * 年龄
+     */
     public int age;
 }
