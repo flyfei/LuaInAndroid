@@ -9,7 +9,9 @@
 
 function dataModel(dataModel)
     if dataModel ~= nil then
-        return dataModel:toString()
+
+        -- 字符串拼接可以用 string.format("%s%s", string1, string2)
+        return string.format("%s%s", dataModel.aString, dataModel:toString())
     else
         return "Is Null"
     end
